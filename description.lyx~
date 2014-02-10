@@ -1,0 +1,1346 @@
+#LyX 2.0 created this file. For more info see http://www.lyx.org/
+\lyxformat 413
+\begin_document
+\begin_header
+\textclass amsart
+\begin_preamble
+\usepackage{tikz}
+\usetikzlibrary{patterns, pgfplots.groupplots}
+\usepackage{pgfplots}
+\usetikzlibrary{spy,arrows,backgrounds,snakes,shapes,automata, decorations}
+\definecolor{burntorange}{cmyk}{0,0.52,1,0}
+\definecolor{burntgreen}{cmyk}{1,0,1,.2}
+\end_preamble
+\use_default_options true
+\begin_modules
+theorems-ams
+eqs-within-sections
+figs-within-sections
+\end_modules
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry true
+\use_amsmath 1
+\use_esint 1
+\use_mhchem 1
+\use_mathdots 1
+\cite_engine basic
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 1cm
+\topmargin 1cm
+\rightmargin 1cm
+\bottommargin 1cm
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Section
+Preliminaries
+\end_layout
+
+\begin_layout Standard
+We consider a network with two types of agents, 
+\emph on
+people 
+\emph default
+and 
+\emph on
+influencers 
+\emph default
+(Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Schematic-of-agent-based"
+
+\end_inset
+
+)
+\emph on
+.
+
+\emph default
+ People change their opinions based on the opinions of other people and
+ influencers.
+ Influencers are insensitive to the opinions of others.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement bh
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+centering
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=3cm,
+\end_layout
+
+\begin_layout Plain Layout
+
+  thick,main node/.style={circle,draw,font=
+\backslash
+sffamily
+\backslash
+Large
+\backslash
+bfseries}]
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+node[main node, scale=1.4, draw=burntgreen] (interest) {$a_i$};
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+node[main node, draw = burntgreen!50] (j) [below left of=interest] {
+\backslash
+color{black!50} $a_j$};
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+node[main node, draw = burntgreen!50] (k) [below right of=j] {
+\backslash
+color{black!50} $a_k$};
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+node[main node, fill=burntorange, below right of=interest, distance = 5cm
+ ] (input) [below right of=interest] {outside world $E$};
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{scope}[every path/.style ={burntgreen},every node/.style={burntgreen,font=
+\backslash
+sffamily
+\backslash
+small}]
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+path
+\end_layout
+
+\begin_layout Plain Layout
+
+    (interest)
+\end_layout
+
+\begin_layout Plain Layout
+
+        	edge [bend right, ultra thick] node[left] {$w_{ji}$} (j) 
+\end_layout
+
+\begin_layout Plain Layout
+
+            edge [loop above, ultra thick] node[left=0.1cm] {$w_{ii}$}  (interest
+)
+\end_layout
+
+\begin_layout Plain Layout
+
+			edge [bend left, ultra thick] node {$w_{ki}$} (k);
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+path[every node/.style={burntgreen!50}, every edge/.style={burntgreen!50,draw=burn
+tgreen!50}]
+\end_layout
+
+\begin_layout Plain Layout
+
+    (j) 	edge [loop left] node {$w_{jj}$} (j)
+\end_layout
+
+\begin_layout Plain Layout
+
+        	edge [bend right] node[left] {$w_{jk}$} (k)
+\end_layout
+
+\begin_layout Plain Layout
+
+    (k) 	edge node [right] {$w_{kj}$} (j)
+\end_layout
+
+\begin_layout Plain Layout
+
+		    edge [loop below] node {$w_{kk}$} (k)
+\end_layout
+
+\begin_layout Plain Layout
+
+	(input) edge [bend right, style=black!50] node[style=black] {$s_i$} (interest)
+\end_layout
+
+\begin_layout Plain Layout
+
+			edge [bend left, style=black!50] node[style=black!50] {$s_k$} (k);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{scope}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{tikzpicture}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+
+\series bold
+Schematic of agent-based model of a social network
+\series default
+.
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Schematic-of-agent-based"
+
+\end_inset
+
+ The large burnt orange circle denotes input from the outside world to agents
+ in the social network.
+ Smaller green circles denote agents.
+ Thicker and darker edges denote connections from an influencer.
+ Thinner and lighter edges denotes connections from the outside world or
+ people.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Equation 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:pop-equation"
+
+\end_inset
+
+ descibes the activity of the 
+\begin_inset Formula $i$
+\end_inset
+
+th agent at some time 
+\begin_inset Formula $t$
+\end_inset
+
+, 
+\begin_inset Formula $a_{i}\left(t\right)$
+\end_inset
+
+ in terms of that agent's prior activity, the activity of others in the
+ network, and external influences.
+ Table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:Description-of-variables"
+
+\end_inset
+
+ describes the other variables in Equation 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:pop-equation"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\tau_{i}\frac{\textrm{d}}{\textrm{dt}}a_{i}\left(t\right)=-a_{i}\left(t\right)+\sum_{j\neq i}w_{ij}a_{j}\left(t\right)+s_{i}E\left(t\right)\label{eq:pop-equation}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+centering
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Tabular
+<lyxtabular version="3" rows="5" columns="2">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top" width="20col%">
+<column alignment="center" valignment="top" width="40col%">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Variable
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Meaning
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\tau_{i}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Stubbornnes, half-life at which 
+\begin_inset Formula $a_{i}\left(t\right)\rightarrow0$
+\end_inset
+
+ in the absence of other input
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $w_{ij}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Importance the 
+\begin_inset Formula $i$
+\end_inset
+
+th user gives to the 
+\begin_inset Formula $j$
+\end_inset
+
+th user's activity
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $s_{i}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Sensitivity of 
+\begin_inset Formula $i$
+\end_inset
+
+th user to external input
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $E\left(t\right)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Strength of external input at time 
+\begin_inset Formula $t$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Description of variables in Equation 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:pop-equation"
+
+\end_inset
+
+.
+ 
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:Description-of-variables"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:influencer-people-range"
+
+\end_inset
+
+ describes the ranges of terms in Equation 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:pop-equation"
+
+\end_inset
+
+ that correspond to people and influencers.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+centering
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Tabular
+<lyxtabular version="3" rows="4" columns="3">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top" width="20col%">
+<column alignment="center" valignment="top" width="20col%">
+<column alignment="center" valignment="top" width="20col%">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Variable
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Influencer
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Person
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\tau_{i}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+High
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Low
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $w_{ij}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Zero
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Nonzero
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $s_{i}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Zero
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Nonzero
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Description of variables in Equation 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:pop-equation"
+
+\end_inset
+
+.
+ 
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:influencer-people-range"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The last two terms on the right hand side of Equation 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:pop-equation"
+
+\end_inset
+
+ may be regarded as the first terms in Taylor expansions of two functions
+ that describe the interactions between the 
+\begin_inset Formula $i$
+\end_inset
+
+th user and the social network, 
+\begin_inset Formula $f$
+\end_inset
+
+, and the external world, 
+\begin_inset Formula $g$
+\end_inset
+
+ (Equation 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:taylor-expansions"
+
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{eqnarray}
+f\left(a_{i},a_{j}\right) & = & \sum_{j}w_{ij}a_{j}+\sum_{j,k}w_{ijk}a_{j}a_{k}+\sum_{j,k,l}w_{ijkl}a_{j}a_{k}a_{l}\nonumber \\
+g\left(a_{i}\right) & = & s_{i}E\left(t\right)+s_{i,2}E^{2}\left(t\right)+\ldots=\sum_{n}s_{i,n}E^{n}\left(t\right)\label{eq:taylor-expansions}
+\end{eqnarray}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Recognizing this interpretation of the last two terms underscores that (i)
+ Equation 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:pop-equation"
+
+\end_inset
+
+ accounts only for 
+\emph on
+pairwise linear
+\emph default
+ interactions, and (ii) the model is readily extensible.
+ We do not consider the higher-order terms in Equation 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:taylor-expansions"
+
+\end_inset
+
+ further in this paper.
+\end_layout
+
+\begin_layout Section
+Computational Implementation
+\end_layout
+
+\begin_layout Standard
+In this section we discuss a computational implementation of the network
+ as one of stochastic binary units (Boltzmann machine).
+ In the Boltzmann machine, the activity of each user takes on one of two
+ values (Equation 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:binary-unity"
+
+\end_inset
+
+).
+ In the context of a social network, we take 
+\emph on
+active
+\emph default
+ to mean posting a message on that topic.
+ Each agent would have a different activity function for each topic.
+ Here, we only consider the activity of agents on one topic.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+a_{i}\left(t\right)=\begin{cases}
+1 & \textrm{active}\\
+-1 & \textrm{inactive}
+\end{cases}\label{eq:binary-unity}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Equation 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:state-binary-unit"
+
+\end_inset
+
+ defines the state of the 
+\begin_inset Formula $i$
+\end_inset
+
+th unit at some time 
+\begin_inset Formula $t$
+\end_inset
+
+, 
+\begin_inset Formula $\sigma_{i}\left(t\right)$
+\end_inset
+
+ in analogy with Equation 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:pop-equation"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\sigma_{i}\left(t\right)=\sum_{j}w_{ij}a_{j}+s_{i}E\left(t\right)\label{eq:state-binary-unit}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+To simulate the dynamics of the network we select a single unit at random
+ at each time step and update that unit according to Equation 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:update-rule"
+
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\mathbb{P}\left[a_{i}\left(t+1\right)=1\right]=\frac{1}{1+e^{-\sigma_{i}\left(t\right)}}\label{eq:update-rule}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Because our network follows Equation 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:update-rule"
+
+\end_inset
+
+, we may calculate how stable a pattern of activity, 
+\begin_inset Formula $\mathbf{a}$
+\end_inset
+
+, is by defining the energy function 
+\begin_inset Formula $\psi$
+\end_inset
+
+ (Equation 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:boltzmann-energy"
+
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\psi\left(\mathbf{a}\right)=-\left(E\left(t\right)\sum_{i}s_{i}+\frac{1}{2}\mathbf{a\cdot W\cdot a}\right)\label{eq:boltzmann-energy}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In Equation 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:boltzmann-energy"
+
+\end_inset
+
+, the 
+\begin_inset Formula $ij$
+\end_inset
+
+th entry of the matrix 
+\begin_inset Formula $\mathbf{W}$
+\end_inset
+
+ is 
+\begin_inset Formula $w_{ij}$
+\end_inset
+
+ as introduced in Equation 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:pop-equation"
+
+\end_inset
+
+ and described in Table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:Description-of-variables"
+
+\end_inset
+
+.
+ Similarly, the 
+\begin_inset Formula $i$
+\end_inset
+
+th member of the vector 
+\begin_inset Formula $\mathbf{a}$
+\end_inset
+
+ is 
+\begin_inset Formula $a_{i}$
+\end_inset
+
+, as introduced in Equation 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:pop-equation"
+
+\end_inset
+
+.
+ From Equation 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:boltzmann-energy"
+
+\end_inset
+
+ we can calculate how likely a pattern of activity, 
+\begin_inset Formula $\mathbf{a}$
+\end_inset
+
+, is to occur in a social network where agents weigh each others activities
+ according to 
+\begin_inset Formula $\mathbf{W}$
+\end_inset
+
+ (Equation 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "boltzmann-probability"
+
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\mathbb{P}\left[\mathbf{a}\right]=\frac{e^{-\psi\left(\mathbf{a}\right)}}{\sum_{\mathbf{a}}e^{-\psi\left(\mathbf{a}\right)}}\label{boltzmann-probability}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Equations 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:boltzmann-energy"
+
+\end_inset
+
+ and 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "boltzmann-probability"
+
+\end_inset
+
+ are important because they allow us to calcualte how changes in the strength
+ of interactions between agents, 
+\begin_inset Formula $\mathbf{W}$
+\end_inset
+
+, change which patterns of activity dominate the social network.
+ They allow us to rank networks as to their likelihood of exhibiting concerning
+ patterns of activity.
+ Finally, they allow us to identify which interactions among users contribute
+ most to a concerning pattern of activity, which allows us to target specific
+ nodes in the network.
+\end_layout
+
+\begin_layout Subsection*
+Estimation of parameters
+\end_layout
+
+\begin_layout Standard
+From Twitter we can reconstruct two types of social networks, depending
+ on what the connections between users (edges between nodes) denote.
+ In one schema, the 
+\emph on
+follower graph, a
+\emph default
+ connection runs from the 
+\begin_inset Formula $i$
+\end_inset
+
+th agent to the 
+\begin_inset Formula $j$
+\end_inset
+
+th agent if the 
+\begin_inset Formula $i$
+\end_inset
+
+th agent follows the 
+\begin_inset Formula $j$
+\end_inset
+
+th agent.
+ In the other schema, a 
+\emph on
+retweet graph
+\emph default
+, a connection runs from the 
+\begin_inset Formula $i$
+\end_inset
+
+th agent to the 
+\begin_inset Formula $j$
+\end_inset
+
+th agent if the 
+\begin_inset Formula $i$
+\end_inset
+
+th agent retweets a tweet of the 
+\begin_inset Formula $j$
+\end_inset
+
+th agent.
+ The follower graph is directed but unweighted because no agent can follow
+ another agent multiple times.
+ The retweet graph, in contrast, is directed and weighted because an agent
+ can retweet another agent's tweets many times.
+ 
+\end_layout
+
+\begin_layout Standard
+We consider only follower graphs.
+ Retweet graphs seem to be more stable (VERIFY THIS.) and may reflect more
+ substantive connections.
+ 
+\end_layout
+
+\begin_layout Section
+Mathematical Analysis
+\end_layout
+
+\begin_layout Standard
+Different agents will populate social networks on different topics.
+ It is, accordingly, reasonable to focus on the patterns of interactions
+ among users, because different groups of users may show similar patterns
+ of interactions.
+ Instead of directly analyzing the connection matrix, 
+\begin_inset Formula $\mathbf{W}$
+\end_inset
+
+, we analyze the Laplacian of the connection matrix, 
+\begin_inset Formula $\mathcal{L}$
+\end_inset
+
+ (Equation 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:laplacian-def"
+
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\mathcal{L}_{ij}=\begin{cases}
+1-\frac{w_{ij}}{dj} & i=j\\
+-\frac{w_{ij}}{\sqrt{d_{i}d_{j}}} & i,j\textrm{ adjacent}\\
+0 & \textrm{otherwise}
+\end{cases}\label{eq:laplacian-def}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In Equation 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:laplacian-def"
+
+\end_inset
+
+, the symbol 
+\begin_inset Formula $d_{j}$
+\end_inset
+
+ denotes the degree of the 
+\begin_inset Formula $j$
+\end_inset
+
+th node, the number of agents that follow agent 
+\begin_inset Formula $j$
+\end_inset
+
+ or are followed by agent 
+\begin_inset Formula $j$
+\end_inset
+
+.
+ Laplacian matrices are symmetric and positive semi-definite.
+ Equation 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:project-a-eigvecs"
+
+\end_inset
+
+ expresses the activity of the network in terms of the eigenvalues of the
+ Laplacian of the connection matrix.
+ 
+\end_layout
+
+\begin_layout Standard
+Equation 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:project-a-eigvecs"
+
+\end_inset
+
+ re-expresses Equation 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:pop-equation"
+
+\end_inset
+
+ in terms of the 
+\begin_inset Formula $\mu$
+\end_inset
+
+ eigenvectors of the connection matrix, 
+\begin_inset Formula $\mathbf{e}_{0},\mathbf{e}_{1},\ldots,\mathbf{e}_{\mu}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\mathbf{a}\left(t\right)=\sum_{\mu=1}c_{\mu}\left(t\right)\mathbf{e_{\mu}}\label{eq:project-a-eigvecs}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Equation 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:each-coefficient"
+
+\end_inset
+
+ uses the property that all eigenvectors are mutually orthogonal, 
+\begin_inset Formula $\mathbf{e}_{\mu}\cdot\mathbf{e}_{\nu}=\delta_{\mu\nu}$
+\end_inset
+
+, to describe the evolution of the coefficients in Equation 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:project-a-eigvecs"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\frac{\textrm{d}}{d\textrm{t}}c_{\nu}\left(t\right)=-\left(1-\lambda_{\nu}\right)c_{\nu}\left(t\right)+E\left(t\right)\cdot\mathbf{e}_{\nu}\label{eq:each-coefficient}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\]
+
+\end_inset
+
+The spectrum (distribution of eigenvalues) uniquely identifies a pattern
+ of connections.
+ If the Laplacian of two networks share the same spectrum, then the patterns
+ of connection within them are functionally indistinguishable and information
+ flows through those networks in the same way.
+ 
+\end_layout
+
+\begin_layout Section
+Validation
+\end_layout
+
+\end_body
+\end_document

@@ -1,7 +1,7 @@
 import twitter, json
 
 READ = 'rb'
-tokens = json.load(open('tokens.json',READ))
+tokens = json.load(open('../tokens.json',READ))
 
 api = twitter.Api(**tokens['twitter'])
 

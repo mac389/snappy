@@ -7,6 +7,7 @@ import json
 import os.path
 import networkx as nx
 from networkx import linalg
+import matplotlib.pyplot as plt
     
 substance = 'test'
 with open('%s_followers.json' %substance,'rb') as js:
@@ -43,3 +44,4 @@ for u_id in followers:
  
 laplacian = linalg.laplacianmatrix.directed_laplacian_matrix(DG)
 print(laplacian)
+nx.write_dot(DG,"linus.dot")
